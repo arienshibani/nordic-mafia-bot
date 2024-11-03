@@ -1,0 +1,62 @@
+# Gitignore 🙈 - Exclude these files from .git versioning
+
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Virtual environments
+venv/
+env/
+.venv/
+.pip/
+*.egg-info/
+*.egg
+
+# Python and pipenv environment files
+Pipfile.lock
+poetry.lock
+
+# Conda environments
+*.conda
+*.env
+
+# Environment variables
+.env
+.env.*
+
+# Logs and temporary files
+*.log
+*.out
+*.tmp
+
+# Model files and serialized objects
+*.h5
+*.hdf5
+*.joblib
+*.pkl
+*.pickle
+*.pt
+*.ckpt
+
+# Jupyter Notebook output files
+*.nbconvert.ipynb
+
+# System files
+.DS_Store
+Thumbs.db
+
+# MacOS
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Visual Studio Code settings
+.vscode/
+.idea/
+
+# OS files
+desktop.ini
