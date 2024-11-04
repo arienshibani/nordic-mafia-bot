@@ -23,25 +23,19 @@ def get_jail_status(driver: WebDriver) -> Tuple[bool, int]:
         jail_link.click()
 
         # Check if the jail element indicating time left is present
-        jail_time_element = driver.find_elements(By.XPATH, "//div[@class='defpadding']//span[@id='js_countdown']")
+        jail_time_element = driver.find_elements(By.XPATH, "//div[@class='blockInstance blockInstanceWide']//div[@class='defpadding']//span[@id='js_countdown']")
         if jail_time_element:
-            time_left_text = jail_time_element[0].text
-            time_parts = time_left_text.split()
-            minutes = 0
-            seconds = 0
+            # Extract minutes and seconds from the nested spans
+            minutes_element = jail_time_element[0].find_element(By.XPATH, ".//span[1]").text
+            seconds_element = jail_time_element[0].find_element(By.XPATH, ".//span[2]").text
 
-            if 'minutt' in time_parts:
-                minutes = int(time_parts[0])
-                seconds = int(time_parts[-2])
-            else:
-                seconds = int(time_parts[0])
-
-            total_time_left = (minutes * 60) + seconds
-            print_with_timestamp(f"You are currently in jail for: {minutes} minute(s) and {seconds} second(s).")
-            return (True, total_time_left)
+            # Convert to total time in seconds
+            total_time_in_seconds = int(minutes_element) * 60 + int(seconds_element)
+            print_with_timestamp(f"You are currently in jail for {minutes_element} minute(s) and {seconds_element} second(s), totaling {total_time_in_seconds} seconds.")
+            return (True, total_time_in_seconds)
         else:
             print_with_timestamp("You are not in jail.")
             return (False, 0)
-    except:
-        print_with_timestamp("Failed to check jail status.")
+    except Exception as e:
+        print_with_timestamp(f"Failed to check jail status. Error: {e}")
         return (False, 0)
