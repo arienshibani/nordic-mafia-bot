@@ -37,19 +37,34 @@ def commit_crime(driver: WebDriver, crime_to_commit: str = "Ran en gammel dame")
     try:
         # Click on "Kriminalitet"
         kriminalitet_link = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//a[@href='index.php?p=kriminalitet' and contains(text(), 'Kriminalitet')]"))
-        )
+            EC.element_to_be_clickable((By.XPATH, "//a[@href='index.php?p=kriminalitet' and contains(text(), 'Kriminalitet')]")
+        ))
         kriminalitet_link.click()
 
         # Click on the crime button
         crime_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, f"//td[contains(text(), '{crime_to_commit}')]")))
-
+            EC.element_to_be_clickable((By.XPATH, f"//td[contains(text(), '{crime_to_commit}')]"))
+        )
         crime_button.click()
 
-        print_with_timestamp("Crime committed.")
-        return 0
+        # Check if the success message appears
+        try:
+            success_message = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, "//div[@class='successBox']//span[contains(text(), 'Vellykket')]")
+            ))
+
+            # Extract the amount of money stolen from the success message
+            amount_element = driver.find_element(By.XPATH, "//div[@class='successBox']//span[contains(text(), 'kr.')]")
+            amount_text = amount_element.text.split()[-2].replace(',', '')  # Extract the numeric value and remove any commas
+            amount_stolen = int(amount_text)
+
+            print_with_timestamp(f"Crime committed: {crime_to_commit}, retreived money: {amount_stolen} kr")
+            return amount_stolen
+        except:
+            # No success box means the crime failed
+            print_with_timestamp(f"Crime attempted: {crime_to_commit}, but it failed. No money was stolen.")
+            return 0
+
     except Exception as e:
         print_with_timestamp(f"Unable to commit the crime. Error: {e}")
-
         return 0
