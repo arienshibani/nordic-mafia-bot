@@ -53,12 +53,12 @@ def commit_crime(driver: WebDriver, crime_to_commit: str = "Ran en gammel dame")
                 EC.presence_of_element_located((By.XPATH, "//div[@class='successBox']//span[contains(text(), 'Vellykket')]")
             ))
 
-            # Extract the amount of money stolen from the success message
-            amount_element = driver.find_element(By.XPATH, "//div[@class='successBox']//span[contains(text(), 'kr.')]")
-            amount_text = amount_element.text.split()[-2].replace(',', '')  # Extract the numeric value and remove any commas
+            # Extract the amount of money stolen using a regex to match numbers with commas
+            amount_element = driver.find_element(By.XPATH, "//div[@class='successBox']//span[normalize-space(.) and translate(., ',', '') = translate(., ',', '')*1]")
+            amount_text = amount_element.text.replace(',', '')  # Remove any commas
             amount_stolen = int(amount_text)
 
-            print_with_timestamp(f"Crime committed: {crime_to_commit}, retreived money: {amount_stolen} kr")
+            print_with_timestamp(f"Crime committed: {crime_to_commit}, money stolen: {amount_stolen} kr")
             return amount_stolen
         except:
             # No success box means the crime failed
