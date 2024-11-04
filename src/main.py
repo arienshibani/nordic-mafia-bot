@@ -52,6 +52,7 @@ while logged_in:
     time.sleep(random.uniform(3, 6))
     if time.time() - last_deposit_time > 360:
         money_collected_this_session += deposit_all_money(driver)
+        print_with_timestamp(f"💵 Total money collected this session: \033[1;33m{money_collected_this_session}\033[0m kr")
         last_deposit_time = time.time()
 
     # Jailbreak the player with the highest bounty.

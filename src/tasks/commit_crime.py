@@ -49,7 +49,7 @@ def commit_crime(driver: WebDriver, crime_to_commit: str = "Ran en gammel dame")
 
         # Check if the success message appears
         try:
-            success_message = WebDriverWait(driver, 10).until(
+            WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//div[@class='successBox']//span[contains(text(), 'Vellykket')]")
             ))
 
@@ -58,11 +58,11 @@ def commit_crime(driver: WebDriver, crime_to_commit: str = "Ran en gammel dame")
             amount_text = amount_element.text.replace(',', '')  # Remove any commas
             amount_stolen = int(amount_text)
 
-            print_with_timestamp(f"💰 Crime committed: {crime_to_commit}, money stolen: \033[1;32m{amount_stolen} kr\033[0m ")
+            print_with_timestamp(f"💰 Crime committed: {crime_to_commit}, money stolen: \033[1;32m{amount_stolen} kr\033[0m - Next attempt in 3 minutes")
             return amount_stolen
         except:
             # No success box means the crime failed
-            print_with_timestamp(f"😕 Crime attempt failed: {crime_to_commit}, money stolen: \033[1;31m0kr\033[0m ")
+            print_with_timestamp(f"😕 Crime attempt failed: {crime_to_commit}, money stolen: \033[1;31m0kr\033[0m - Next attempt in 3 minutes")
             return 0
 
     except Exception as e:
