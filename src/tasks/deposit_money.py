@@ -34,10 +34,10 @@ def deposit_all_money(driver: WebDriver) -> int:
         )
 
         deposit_button.click()
-        print_with_timestamp(f"{amount_to_deposit} kr deposited successfully.")
+        print_with_timestamp(f"🏦 Deposited \033[1;33m{amount_to_deposit}\033[0m kr in the bank account.")
 
         return amount_to_deposit
 
     except Exception as e:
-        print_with_timestamp(f"Failed to deposit money. Error: {e}")
+        print_with_timestamp(f"❌ Error: Failed to deposit money: {e}")
         return 0

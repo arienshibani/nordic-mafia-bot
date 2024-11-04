@@ -31,7 +31,7 @@ def commit_crime(driver: WebDriver, crime_to_commit: str = "Ran en gammel dame")
     ]
 
     if crime_to_commit not in possible_crimes:
-        print_with_timestamp(f"Invalid crime in config: {crime_to_commit}. Defaulting to 'Ran en gammel dame'.")
+        print_with_timestamp(f"⛔️ Warning: Invalid crime in config: {crime_to_commit}. Defaulting to 'Ran en gammel dame'.")
         crime_to_commit = "Ran en gammel dame"
 
     try:
@@ -58,13 +58,13 @@ def commit_crime(driver: WebDriver, crime_to_commit: str = "Ran en gammel dame")
             amount_text = amount_element.text.replace(',', '')  # Remove any commas
             amount_stolen = int(amount_text)
 
-            print_with_timestamp(f"Crime committed: {crime_to_commit}, money stolen: {amount_stolen} kr")
+            print_with_timestamp(f"💰 Crime committed: {crime_to_commit}, money stolen: \033[1;32m{amount_stolen} kr\033[0m ")
             return amount_stolen
         except:
             # No success box means the crime failed
-            print_with_timestamp(f"Crime attempted: {crime_to_commit}, but it failed. No money was stolen.")
+            print_with_timestamp(f"😕 Crime attempt failed: {crime_to_commit}, money stolen: \033[1;31m0kr\033[0m ")
             return 0
 
     except Exception as e:
-        print_with_timestamp(f"Unable to commit the crime. Error: {e}")
+        print_with_timestamp(f"❌ Error, Unable to commit the crime:  {e} ")
         return 0

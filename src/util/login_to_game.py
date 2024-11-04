@@ -43,4 +43,7 @@ def login_to_game(driver: WebDriver, username: str, password: str) -> bool:
 
     # Wait to ensure login completes and stay on the page
     WebDriverWait(driver, 10).until(EC.url_changes('https://www.nordicmafia.org/login'))
+
+    print_with_timestamp(f' 🔐 Successfully logged in as "{username}"')
+
     return True
